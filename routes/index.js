@@ -1,4 +1,6 @@
 const userRoutes = require("./userRoute");
+const khatmaRoutes = require("./khatmaRoute");
+const globalStatsRoutes = require("./globalStstsRoute");
 
 const mountRoutes = (app) => {
     app.use((req, res, next) => {
@@ -28,6 +30,8 @@ const mountRoutes = (app) => {
 //=============================
 
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/khatmas", khatmaRoutes);
+app.use("/api/v1/global-stats", globalStatsRoutes);
 //=============================
 // 404 Handler
 //=============================
