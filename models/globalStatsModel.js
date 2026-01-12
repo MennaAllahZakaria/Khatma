@@ -21,6 +21,16 @@ const globalStatsSchema = new mongoose.Schema({
     default: 0
   },
 
+  azkarCounters: {
+    SUBHAN_ALLAH: { type: Number, default: 0 },
+    ALHAMDULILLAH: { type: Number, default: 0 },
+    ALLAHU_AKBAR: { type: Number, default: 0 },
+    ASTAGHFIRULLAH: { type: Number, default: 0 },
+    SALAT_AL_NABI: { type: Number, default: 0 },
+    OTHER: { type: Number, default: 0 }
+  },
+
+
   updatedAt: {
     type: Date,
     default: Date.now

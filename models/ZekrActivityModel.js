@@ -8,6 +8,19 @@ const zekrActivitySchema = new mongoose.Schema({
     index: true
   },
 
+  zekrType: {
+    type: String,
+    enum: [
+      "SUBHAN_ALLAH",
+      "ALHAMDULILLAH",
+      "ALLAHU_AKBAR",
+      "ASTAGHFIRULLAH",
+      "SALAT_AL_NABI",
+      "OTHER"
+    ],
+    index: true
+  },
+
   count: {
     type: Number,
     required: true,

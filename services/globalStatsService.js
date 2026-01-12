@@ -18,6 +18,7 @@ exports.getGlobalStats = asyncHandler(async (req, res, next) => {
       totalCompletedKhatmas: stats.totalCompletedKhatmas,
       totalPartsRead: stats.totalPartsRead,
       totalAzkarCount: stats.totalAzkarCount,
+      azkarCounters: stats.azkarCounters,
       updatedAt: stats.updatedAt
     });
 
