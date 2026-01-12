@@ -15,7 +15,7 @@ router.post(
 );
 // ================= KHATMA - ADD PROGRESS =================
 router.post(
-    "/progress",
+    "/:khatmaId/progress",
     addProgress
 );
 // ================= KHATMA - GET USER KHATMAS =================
