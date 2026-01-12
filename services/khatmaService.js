@@ -58,16 +58,17 @@ exports.createKhatma =asyncHandler(async (req, res, next) => {
 ========================= */
 
 exports.addProgress = asyncHandler(async (req, res, next) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
   try {
     const { index } = req.body;
-    const { id: khatmaId } = req.params;
-
+    const { khatmaId } = req.params;
     if (typeof index !== "number") {
       return res.status(400).json({ message: "رقم الجزء غير صالح" });
     }
 
-    const khatma = await Khatma.findById(khatmaId);
+    const khatma = await Khatma.findById(khatmaId).session(session);
 
     if (!khatma) {
       return res.status(404).json({ message: "الختمة غير موجودة" });
@@ -83,7 +84,7 @@ exports.addProgress = asyncHandler(async (req, res, next) => {
         userId: khatma.userId,
         index
       }],
-      
+      { session }
     );
 
     khatma.completedCount += 1;
@@ -96,7 +97,7 @@ exports.addProgress = asyncHandler(async (req, res, next) => {
       completedNow = true;
     }
 
-    await khatma.save();
+    await khatma.save({ session });
 
     await User.findByIdAndUpdate(
       khatma.userId,
@@ -107,7 +108,7 @@ exports.addProgress = asyncHandler(async (req, res, next) => {
         },
         lastActivityAt: new Date()
       },
-     
+      { session }
     );
 
     await GlobalStats.findByIdAndUpdate(
@@ -119,10 +120,11 @@ exports.addProgress = asyncHandler(async (req, res, next) => {
         },
         updatedAt: new Date()
       },
-      { upsert: true,  }
+      { upsert: true, session }
     );
 
-    
+    await session.commitTransaction();
+    session.endSession();
 
     res.json({
       success: true,
@@ -130,7 +132,9 @@ exports.addProgress = asyncHandler(async (req, res, next) => {
     });
 
   } catch (error) {
-   
+    await session.abortTransaction();
+    session.endSession();
+
     if (error.code === 11000) {
       return res.status(409).json({
         message: "الجزء ده متسجل قبل كده"
