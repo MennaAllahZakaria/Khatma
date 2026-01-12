@@ -7,7 +7,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const compression = require("compression");
 const mountRoutes = require("./routes/index");
-const globalError = require("./middelware/errorMiddleware");
+const globalError = require("./middleware/errorMiddleware");
 const dbConnection = require("./config/database");
 //connect with db
 dbConnection();
