@@ -15,7 +15,7 @@ router.post(
 );
 // ================= KHATMA - ADD PROGRESS =================
 router.post(
-    "/:khatmaId/progress",
+    "/:khatmaId/progress/:userId",
     addProgress
 );
 // ================= KHATMA - GET USER KHATMAS =================
@@ -25,7 +25,7 @@ router.get(
 );
 // ================= KHATMA - GET KHATMA DETAILS BY ID =================
 router.get(
-    "/:id",
+    "/:id/:userId",
     getKhatmaDetails
 );
 module.exports = router;

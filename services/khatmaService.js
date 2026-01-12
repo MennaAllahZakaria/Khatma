@@ -63,12 +63,16 @@ exports.addProgress = asyncHandler(async (req, res, next) => {
 
   try {
     const { index } = req.body;
-    const { khatmaId } = req.params;
+    const { khatmaId ,userId} = req.params;
     if (typeof index !== "number") {
       return res.status(400).json({ message: "رقم الجزء غير صالح" });
     }
 
     const khatma = await Khatma.findById(khatmaId).session(session);
+
+    if (!khatma.userId.equals(userId)) {
+      return res.status(403).json({ message: "مش مسموح تضيف تقدم في ختمة حد تاني" });
+    }
 
     if (!khatma) {
       return res.status(404).json({ message: "الختمة غير موجودة" });
@@ -128,7 +132,11 @@ exports.addProgress = asyncHandler(async (req, res, next) => {
 
     res.json({
       success: true,
+      data:{
+      completedCount: khatma.completedCount,
       isCompleted: khatma.isCompleted
+      }
+
     });
 
   } catch (error) {
@@ -176,12 +184,18 @@ exports.getUserKhatmas = asyncHandler(async (req, res, next) => {
 
 exports.getKhatmaDetails = asyncHandler(async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id,userId } = req.params;
 
     const khatma = await Khatma.findById(id).lean();
+
+    if (!khatma.userId.equals(userId)) {
+      return res.status(403).json({ message: "مش مسموح تشوف ختمة حد تاني" });
+    }
+
     if (!khatma) {
       return res.status(404).json({ message: "الختمة غير موجودة" });
     }
+
 
     const progress = await KhatmaProgress.find({ khatmaId: id })
       .select("index completedAt -_id")
