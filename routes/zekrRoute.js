@@ -1,7 +1,8 @@
 const express = require("express");
 
 const {
-    addZekr
+    addZekr,
+    getAllowedZekrTypes
 } = require("../services/zekrService");
 const { zekrRateLimit } = require("../middleware/zekrRateLimit");
 
@@ -11,5 +12,10 @@ router.post(
     "/add",
     zekrRateLimit,
     addZekr
+);
+// ================= ZEKR - GET ALLOWED ZEKR TYPES =================
+router.get(
+    "/allowed-types",
+    getAllowedZekrTypes
 );
 module.exports = router;

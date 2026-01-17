@@ -6,12 +6,16 @@ const GlobalStats = require("../models/globalStatsModel");
 const MAX_ZEKR_PER_REQUEST = 1000;
 
 const ALLOWED_ZEKR_TYPES = [
-  "SUBHAN_ALLAH",
-  "ALHAMDULILLAH",
-  "ALLAHU_AKBAR",
-  "ASTAGHFIRULLAH",
-  "SALAT_AL_NABI",
-  "OTHER"
+
+      "سُبْحانَ اللهِ وَبِحَمْدِهِ، سُبْحانَ اللهِ العَظِيمِ",
+      "اللهُ أَكبَرُ",
+      "لا إلهَ إلا اللهُ وَحدَهُ لا شريكَ لهُ، لهُ الملكُ ولهُ الحَمدُ وهوَ على كلِّ شيءٍ قديرٌ.",
+      "أستغفرُ اللهَ العَظِيمَ",
+      "سُبْحانَ اللهِ وَبِحَمْدِهِ، عَدَدَ خَلْقِهِ، وَرِضا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدادَ كَلِماتِهِ",
+      "الحمدُ لله",
+      "اللّهُمَّ لكَ الحمدُ كما ينبغي لجلالِ وجهكَ وعظيمِ سلطانِكَ",
+      "اللّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ",
+      "اخرى"
 ];
 
 /* =========================
@@ -112,4 +116,15 @@ exports.addZekr = async (req, res, next) => {
       session.endSession();
     }
   }
+};
+
+
+/* =========================
+   Get Allowed Zekr Types
+========================= */
+exports.getAllowedZekrTypes = (req, res) => {
+  res.status(200).json({
+    success: true,
+    data: ALLOWED_ZEKR_TYPES
+  });
 };
